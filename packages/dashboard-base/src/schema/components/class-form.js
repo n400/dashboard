@@ -1,4 +1,3 @@
-import ReactGA from "react-ga"
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { browserHistory } from "react-router"
@@ -10,6 +9,7 @@ import { faunaClient } from "../../authentication"
 import { notify } from "../../notifications"
 import { buildResourceUrl } from "../../router"
 import { createClass, createIndex, selectedDatabase } from "../"
+import { Events } from "../../plugins"
 
 class ClassForm extends Component {
   constructor(props) {
@@ -46,7 +46,7 @@ class ClassForm extends Component {
 
   onSubmit() {
     const { path, url, client } = this.props
-    ReactGA.event({category: "schema", action: "class-create"});
+    Events.fire("@@schema/updated", { resource: "class", action: "create" })
 
     return notify("Class created successfully", dispatch => {
       let res = dispatch(createClass(client, path, this.classConfig()))

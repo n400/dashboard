@@ -1,4 +1,3 @@
-import ReactGA from "react-ga"
 import SplitPane from "react-split-pane"
 import React, { Component } from "react"
 import { connect } from "react-redux"
@@ -14,6 +13,7 @@ import { monitorActivity, isBusy } from "../../activity-monitor"
 import { QueryResult } from "../../dataset"
 import { faunaClient } from "../../authentication"
 import { selectedResource, buildResourceUrl } from "../../router"
+import { Events } from "../../plugins"
 
 class ToggleRepl extends Component {
   constructor(props) {
@@ -62,10 +62,11 @@ class ToggleRepl extends Component {
   }
 
   onToggle(field) {
-    ReactGA.event({category: "repl", action: "toggle-"+field+"-"+!this.state[field]});
-    return value => this.setState({
-      [field]: !this.state[field]
-    })
+    return () => {
+      const newValue = !this.state[field]
+      Events.fire("@@toggle-repl/toggled", { prop: `toggle-${field}-${newValue}` })
+      this.setState({ [field]: newValue })
+    }
   }
 
   buildBreadCrumbItem(path) {
@@ -103,7 +104,8 @@ class ToggleRepl extends Component {
       (result) => this.setState({ result, error: null }),
       (error) => this.setState({ error, result: null })
     )
-    ReactGA.event({category: "repl", action: "query"});
+
+    Events.fire("@@toggle-repl/query-executed")
   }
 
   render() {

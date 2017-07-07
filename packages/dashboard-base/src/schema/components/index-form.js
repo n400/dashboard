@@ -1,4 +1,3 @@
-import ReactGA from "react-ga"
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { browserHistory } from "react-router"
@@ -12,6 +11,7 @@ import { selectedDatabase, createIndex } from "../"
 import { notify } from "../../notifications"
 import { faunaClient } from "../../authentication"
 import { buildResourceUrl } from "../../router"
+import { Events } from "../../plugins"
 
 class IndexForm extends Component {
   constructor(props) {
@@ -80,7 +80,7 @@ class IndexForm extends Component {
 
   onSubmit() {
     const { client, path, url } = this.props
-    ReactGA.event({category: "schema", action: "index-create"});
+    Events.fire("@@schema/updated", { resource: "index", action: "create" })
     return notify("Index created successfully", dispatch =>
       dispatch(createIndex(client, path, this.indexConfig())).then(index =>
         browserHistory.push(

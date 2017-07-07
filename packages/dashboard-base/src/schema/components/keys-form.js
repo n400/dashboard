@@ -1,4 +1,3 @@
-import ReactGA from "react-ga"
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { query as q } from "faunadb"
@@ -11,6 +10,7 @@ import { selectedDatabase } from "../"
 import { notify } from "../../notifications"
 import { faunaClient } from "../../authentication"
 import { KeyType } from "../../persistence/faunadb-wrapper"
+import { Events } from "../../plugins"
 
 export class KeysForm extends Component {
 
@@ -56,7 +56,7 @@ export class KeysForm extends Component {
 
   onSubmit() {
     const { client, database } = this.props
-    ReactGA.event({category: "schema", action: "keys-create"});
+    Events.fire("@@schema/updated", { resource: "keys", action: "create" })
     return notify("Key created successfully", () =>
       client
         .query(database.get("path"), KeyType.ADMIN, q.CreateKey(this.keyConfig()))

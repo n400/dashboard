@@ -1,5 +1,4 @@
 import Immutable from "immutable"
-import ReactGA from "react-ga"
 import React, { Component } from "react"
 import { Provider, connect } from "react-redux"
 import { Router, IndexRoute, Route, Redirect, Link, browserHistory } from "react-router"
@@ -15,6 +14,7 @@ import { LoginForm, UserAccount, faunaClient } from "./authentication"
 import { IntercomWidget } from "./external/intercom"
 import { KeyType } from "./persistence/faunadb-wrapper"
 import { ToggleRepl } from "./repl"
+import { Events } from "./plugins"
 
 import {
   NavTree,
@@ -107,12 +107,6 @@ export class Container extends Component {
   }
 }
 
-// FIXME: sentry should be at a plugin and enabled for could only
-// if (process.env.NODE_ENV === "production") {
-//   Raven
-//     .config("https://a6a14ab8e3ab4cbb87edaa320ad57ecb@sentry.io/154810")
-//     .install()
-// }
 export default class Dashboard extends Component {
 
   static Container = connect(
@@ -127,25 +121,18 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.store = createReduxStore()
+    this.firePageChanged = this.firePageChanged.bind(this)
   }
 
-  // FIXME: GA should be extract as a plugin for could users only
-  componentDidMount() {
-    if (Dashboard.isProduction) {
-      ReactGA.initialize("UA-51914115-2")
-    }
-  }
-
-  trackPage() {
-    if (Dashboard.isProduction) {
-      ReactGA.set({ page: window.location.pathname })
-      ReactGA.pageview(window.location.pathname)
-    }
+  firePageChanged() {
+    Events.fire("@@dashboard/page-changed", {
+      pathname: window.location.pathname
+    })
   }
 
   render() {
     return <Provider store={this.store}>
-        <Router onUpdate={this.trackPage.bind(this)} history={browserHistory}>
+        <Router onUpdate={this.firePageChanged} history={browserHistory}>
           <Redirect from="/" to="/db" />
           <Route path="/db" component={Dashboard.Container}>
             <Route path="indexes/:indexName" component={IndexManager} />

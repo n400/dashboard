@@ -2,7 +2,7 @@ import React from "react"
 import { shallow } from "enzyme"
 import { shallowToJson } from "enzyme-to-json"
 
-import { Container } from "../app"
+import { Container } from "../dashboard"
 
 describe("Container Component", () => {
   let comp, client
