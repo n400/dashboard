@@ -14,3 +14,12 @@ require('whatwg-fetch');
 // Object.assign() is commonly used with React.
 // It will use the native implementation if it's present and isn't buggy.
 Object.assign = require('object-assign');
+
+// For cross browser compatibility
+if (typeof Object.values === 'undefined') {
+  Object.values = function(obj) {
+    Object.keys(obj).map(function(key) {
+      return obj[key];
+    });
+  };
+}

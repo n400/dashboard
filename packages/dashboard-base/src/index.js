@@ -21,8 +21,6 @@ if (process.env.NODE_ENV === "production") {
     .install()
 }
 
-require("./lang/polyfill.js")
-
 const store = (() => {
   const middlewares = [thunk]
 
