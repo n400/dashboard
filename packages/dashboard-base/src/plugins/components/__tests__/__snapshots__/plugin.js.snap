@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render a plugin 1`] = `null`;
+
+exports[`should render a plugin 2`] = `null`;
+
+exports[`should render a plugin 3`] = `
+<div>
+  <h1>
+    I will appear at "plugin-goes-here"
+  </h1>
+</div>
+`;
