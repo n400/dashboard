@@ -12,6 +12,7 @@ process.on('unhandledRejection', err => {
 });
 
 // Ensure environment variables are read.
+require('../config/node-path').includeRunningPackage();
 require('../config/env');
 
 const path = require('path');

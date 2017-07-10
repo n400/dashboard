@@ -25,12 +25,8 @@ exports[`UserAccount Component should show and hide context menu on click 2`] = 
     }
     onClick={[Function]}
   />
-  <ContextualMenu
-    arrowDirection={0}
-    beakWidth={16}
+  <WithResponsiveMode
     directionalHint={5}
-    gapSpace={0}
-    isBeakVisible={false}
     items={
       Array [
         Object {

@@ -18,7 +18,7 @@ describe("UserAccount Component", () => {
     comp.find("ComponentWithInjectedProps").simulate("click", { target: "mocked" })
     expect(shallowToJson(comp)).toMatchSnapshot()
 
-    comp.find("ContextualMenu").simulate("dismiss")
+    comp.find("WithResponsiveMode").simulate("dismiss")
     expect(shallowToJson(comp)).toMatchSnapshot()
   })
 
@@ -26,7 +26,7 @@ describe("UserAccount Component", () => {
     comp.setState({ menuVisible: true })
 
     comp
-      .find("ContextualMenu")
+      .find("WithResponsiveMode")
       .prop("items")
       .filter(i => i.key === "logout-btn")[0]
       .onClick()
