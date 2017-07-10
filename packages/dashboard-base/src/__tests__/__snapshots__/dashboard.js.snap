@@ -69,7 +69,9 @@ exports[`Container Component displays the base layout 1`] = `
   </Connect(ToggleRepl)>
   <Connect(NotificationBar) />
   <Connect(LoginForm) />
-  <Connect(IntercomWidget) />
+  <Outlet
+    name="@@dashboard/after-application-content"
+  />
 </div>
 `;
 
@@ -142,6 +144,8 @@ exports[`Container Component renders a smaller sidebar when using a server key 1
   </Connect(ToggleRepl)>
   <Connect(NotificationBar) />
   <Connect(LoginForm) />
-  <Connect(IntercomWidget) />
+  <Outlet
+    name="@@dashboard/after-application-content"
+  />
 </div>
 `;

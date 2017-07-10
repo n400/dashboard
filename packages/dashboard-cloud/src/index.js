@@ -2,7 +2,9 @@ import React from "react"
 import ReactDOM from "react-dom"
 import ReactGA from "react-ga"
 import Raven from "raven-js"
-import { Dashboard } from "dashboard-base"
+import { Dashboard, Plugin } from "dashboard-base"
+
+import { IntercomWidget } from "./intercom"
 
 const isProduction = process.env.NODE_ENV === "production"
 
@@ -19,7 +21,11 @@ class CloudDashboard extends React.Component {
   }
 
   render() {
-    return <Dashboard />
+    return <Dashboard>
+        <Plugin name="intercom" outlet="@@dashboard/after-application-content">
+          <IntercomWidget />
+        </Plugin>
+      </Dashboard>
   }
 }
 
