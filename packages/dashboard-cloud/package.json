@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "dashboard-base": "1.0.0",
-    "react-ga": "^2.1.2"
+    "react-ga": "^2.1.2",
+    "raven-js": "^3.14.0"
   }
 }
