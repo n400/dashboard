@@ -1,19 +1,20 @@
 import Immutable from "immutable"
-import ReactGA from "react-ga"
 import React, { Component } from "react"
 import { Provider, connect } from "react-redux"
 import { Router, IndexRoute, Route, Redirect, Link, browserHistory } from "react-router"
 
-import "./app.css"
+import "./dashboard.css"
 import logo from "./logo.svg"
 import GetStarted from "./get-started"
-import { ToggleRepl } from "./repl"
+import { createReduxStore } from "./store"
 import { updateSelectedResource } from "./router"
 import { ActivityMonitor, monitorActivity } from "./activity-monitor"
 import { NotificationBar, watchForError } from "./notifications"
 import { LoginForm, UserAccount, faunaClient } from "./authentication"
 import { IntercomWidget } from "./external/intercom"
 import { KeyType } from "./persistence/faunadb-wrapper"
+import { ToggleRepl } from "./repl"
+import { Events } from "./plugins"
 
 import {
   NavTree,
@@ -106,7 +107,7 @@ export class Container extends Component {
   }
 }
 
-export default class App extends Component {
+export default class Dashboard extends Component {
 
   static Container = connect(
     state => ({
@@ -117,25 +118,23 @@ export default class App extends Component {
   static NotFound = () => <h1>404.. This page is not found!</h1>
   static isProduction = process.env.NODE_ENV === "production"
 
-  // FIXME: GA should be extract as a plugin for could users only
-  componentDidMount() {
-    if (App.isProduction) {
-      ReactGA.initialize("UA-51914115-2")
-    }
+  constructor(props) {
+    super(props)
+    this.store = createReduxStore()
+    this.firePageChanged = this.firePageChanged.bind(this)
   }
 
-  trackPage() {
-    if (App.isProduction) {
-      ReactGA.set({ page: window.location.pathname })
-      ReactGA.pageview(window.location.pathname)
-    }
+  firePageChanged() {
+    Events.fire("@@dashboard/page-changed", {
+      pathname: window.location.pathname
+    })
   }
 
   render() {
-    return <Provider store={this.props.store}>
-        <Router onUpdate={this.trackPage.bind(this)} history={browserHistory}>
+    return <Provider store={this.store}>
+        <Router onUpdate={this.firePageChanged} history={browserHistory}>
           <Redirect from="/" to="/db" />
-          <Route path="/db" component={App.Container}>
+          <Route path="/db" component={Dashboard.Container}>
             <Route path="indexes/:indexName" component={IndexManager} />
             <Route path="indexes" component={IndexForm} />
             <Route path="classes/:className" component={ClassManager} />
@@ -150,7 +149,7 @@ export default class App extends Component {
             <Route path="**/keys" component={KeysManager} />
             <IndexRoute component={GetStarted} />
           </Route>
-          <Route path="*" component={App.NotFound} />
+          <Route path="*" component={Dashboard.NotFound} />
         </Router>
       </Provider>
   }
