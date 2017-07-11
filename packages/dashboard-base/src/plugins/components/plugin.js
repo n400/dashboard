@@ -1,37 +1,49 @@
-import React, { Component } from "react"
+import { Component } from "react"
 
 const outletsByName = {}
-const pluginsByOutlet = {}
+const pluginByOutlet = {}
 
 export class Outlet extends Component {
   constructor(props) {
     super(props)
     if (!props.name) throw new Error("Outlet must have a name")
-    outletsByName[props.name] = this
+  }
+
+  componentWillMount() {
+    outletsByName[this.props.name] = this
+  }
+
+  componentWillUnmount() {
+    delete outletsByName[this.props.name]
   }
 
   render() {
-    const plugins = Object.values(pluginsByOutlet[this.props.name] || {})
-    return plugins.length > 0 ? <div>{plugins.map(p => p.contents())}</div> : null
+    const plugin = pluginByOutlet[this.props.name]
+    return plugin ? plugin.content() : this.props.children || null
   }
 }
 
 export class Plugin extends Component {
   constructor(props) {
     super(props)
-    if (!props.name || !props.outlet) throw new Error("Plugin must have name and outlet")
-    pluginsByOutlet[props.outlet] = Object.assign(pluginsByOutlet[props.outlet] || {}, {
-      [props.name]: this
-    })
+    if (!props.outlet) throw new Error("Plugin must have an outlet")
   }
 
-  contents() {
+  componentWillMount() {
+    pluginByOutlet[this.props.outlet] = this
+  }
+
+  componentWillUnmount() {
+    delete pluginByOutlet[this.props.outlet]
+  }
+
+  content() {
     return this.props.children
   }
 
   render() {
     const outlet = outletsByName[this.props.outlet]
     if (outlet) outlet.forceUpdate()
-    return false
+    return null
   }
 }

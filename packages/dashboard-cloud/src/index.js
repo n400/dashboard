@@ -22,7 +22,7 @@ class CloudDashboard extends React.Component {
 
   render() {
     return <Dashboard>
-        <Plugin name="intercom" outlet="@@dashboard/after-application-content">
+        <Plugin outlet="@@dashboard/after-application-content">
           <IntercomWidget />
         </Plugin>
       </Dashboard>
