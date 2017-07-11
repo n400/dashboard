@@ -6,8 +6,8 @@ import { PrimaryButton } from "office-ui-fabric-react/lib/Button"
 import { TextField } from "office-ui-fabric-react/lib/TextField"
 import { Dialog, DialogType, DialogFooter } from "office-ui-fabric-react/lib/Dialog"
 
-import { login, loginWithCloud, restoreUserSession } from "../"
-import { pushNotification, NotificationType } from "../../notifications"
+import { login, restoreUserSession } from "../"
+import { Events } from "../../plugins"
 
 const DEFAULT_ENDPOINT = "https://db.fauna.com/"
 
@@ -15,7 +15,6 @@ class LoginForm extends Component {
   constructor(props) {
     super(props)
     this.state = this.initialState()
-    this.askForPaymentInfoIfNeeded = this.askForPaymentInfoIfNeeded.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
@@ -29,36 +28,15 @@ class LoginForm extends Component {
   }
 
   componentDidMount() {
-    this.withMessage("Logging in...", loginWithCloud())
-      .then(user => !user ? this.withMessage("Restoring user session...", restoreUserSession()) : user)
-      .then(user => !user ? this.setState({ message: null }) : user)
-      .then(this.askForPaymentInfoIfNeeded)
-  }
+    Events.listen("@@authentication/user-logged-out", () => {
+      this.setState({ message: "Logging out..." }, () => {
+        window.location = "/"
+      })
+    })
 
-  componentWillReceiveProps(next) {
-    if (this.props.currentUser !== null && next.currentUser === null) {
-      this.setState({ message: "Logging out..." })
-    }
-  }
-
-  askForPaymentInfoIfNeeded(user) {
-    if (this.shouldAskForPaymentInfo(user)) {
-      this.props.dispatch(
-        pushNotification(
-          NotificationType.WARNING,
-          <span>
-            Don't forget to <a href={user.getIn(["settings", "paymentUrl"])} target="_blank" rel="noopener noreferrer">setup your billing</a> information
-            to keep using FaunaDB
-          </span>
-        )
-      )
-    }
-  }
-
-  shouldAskForPaymentInfo(user) {
-    return user &&
-      user.getIn(["settings", "acceptedTos"]) === true &&
-      user.getIn(["settings", "paymentSet"]) === false
+    this
+      .withMessage("Restoring user session...", restoreUserSession())
+      .then(user => !user ? this.setState({ message: null }) : null)
   }
 
   withMessage(message, action) {

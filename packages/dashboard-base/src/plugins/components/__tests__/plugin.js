@@ -24,6 +24,6 @@ it("should render a plugin", () => {
 })
 
 it("should render an empty outlet if no default content", () => {
-  const comp = shallow(<Outlet name="plugin-goes-here" />)
+  const comp = shallow(<Outlet name="empty-outlet" />)
   expect(shallowToJson(comp)).toMatchSnapshot()
 })

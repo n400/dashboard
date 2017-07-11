@@ -10,7 +10,7 @@ exports[`should render a plugin 2`] = `null`;
 
 exports[`should render a plugin 3`] = `
 <h1>
-  Default content
+  I will appear at "plugin-goes-here"
 </h1>
 `;
 

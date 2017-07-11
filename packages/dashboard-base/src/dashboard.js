@@ -6,7 +6,7 @@ import { Router, IndexRoute, Route, Redirect, Link, browserHistory } from "react
 import "./dashboard.css"
 import logo from "./logo.svg"
 import GetStarted from "./get-started"
-import { createReduxStore } from "./store"
+import reduxStore from "./store"
 import { updateSelectedResource } from "./router"
 import { ActivityMonitor, monitorActivity } from "./activity-monitor"
 import { NotificationBar, watchForError } from "./notifications"
@@ -78,7 +78,9 @@ export class Container extends Component {
           </div>
         </ToggleRepl>
         <NotificationBar />
-        <LoginForm />
+        <Outlet name="@@dashboard/authentication">
+          <LoginForm />
+        </Outlet>
         <Outlet name="@@dashboard/after-application-content" />
       </div>
   }
@@ -119,7 +121,6 @@ export default class Dashboard extends Component {
 
   constructor(props) {
     super(props)
-    this.store = createReduxStore()
     this.firePageChanged = this.firePageChanged.bind(this)
   }
 
@@ -131,29 +132,32 @@ export default class Dashboard extends Component {
 
   render() {
     return <div>
-        <Provider store={this.store}>
-          <Router onUpdate={this.firePageChanged} history={browserHistory}>
-            <Redirect from="/" to="/db" />
-            <Route path="/db" component={Dashboard.Container}>
-              <Route path="indexes/:indexName" component={IndexManager} />
-              <Route path="indexes" component={IndexForm} />
-              <Route path="classes/:className" component={ClassManager} />
-              <Route path="classes" component={ClassForm} />
-              <Route path="databases" component={DatabaseForm} />
-              <Route path="keys" component={KeysManager} />
-              <Route path="**/indexes/:indexName" component={IndexManager} />
-              <Route path="**/indexes" component={IndexForm} />
-              <Route path="**/classes/:className" component={ClassManager} />
-              <Route path="**/classes" component={ClassForm} />
-              <Route path="**/databases" component={DatabaseForm} />
-              <Route path="**/keys" component={KeysManager} />
-              <IndexRoute component={GetStarted} />
-            </Route>
-            <Route path="*" component={Dashboard.NotFound} />
-          </Router>
-        </Provider>
-        {/* Entrypoint for rendering external plugins */}
-        { this.props.children }
-      </div>
+      {/* Entrypoint for rendering external plugins.
+        * This must be the first call to ensure plugins are declared before their outlets
+        * so that their outlets are able to render default content if no plugin was declared.
+        */}
+      { this.props.children }
+      <Provider store={reduxStore}>
+        <Router onUpdate={this.firePageChanged} history={browserHistory}>
+          <Redirect from="/" to="/db" />
+          <Route path="/db" component={Dashboard.Container}>
+            <Route path="indexes/:indexName" component={IndexManager} />
+            <Route path="indexes" component={IndexForm} />
+            <Route path="classes/:className" component={ClassManager} />
+            <Route path="classes" component={ClassForm} />
+            <Route path="databases" component={DatabaseForm} />
+            <Route path="keys" component={KeysManager} />
+            <Route path="**/indexes/:indexName" component={IndexManager} />
+            <Route path="**/indexes" component={IndexForm} />
+            <Route path="**/classes/:className" component={ClassManager} />
+            <Route path="**/classes" component={ClassForm} />
+            <Route path="**/databases" component={DatabaseForm} />
+            <Route path="**/keys" component={KeysManager} />
+            <IndexRoute component={GetStarted} />
+          </Route>
+          <Route path="*" component={Dashboard.NotFound} />
+        </Router>
+      </Provider>
+    </div>
   }
 }
