@@ -2,7 +2,7 @@ import { Component } from "react"
 import { connect } from "react-redux"
 
 import { loadIntercomWidget, unloadIntercomWidget } from "./sdk"
-import { intercomSettings } from "../../authentication"
+import { intercomSettings } from "dashboard-base"
 
 class IntercomWidget extends Component {
   componentDidMount() {

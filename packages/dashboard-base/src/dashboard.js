@@ -11,10 +11,9 @@ import { updateSelectedResource } from "./router"
 import { ActivityMonitor, monitorActivity } from "./activity-monitor"
 import { NotificationBar, watchForError } from "./notifications"
 import { LoginForm, UserAccount, faunaClient } from "./authentication"
-import { IntercomWidget } from "./external/intercom"
 import { KeyType } from "./persistence/faunadb-wrapper"
 import { ToggleRepl } from "./repl"
-import { Events } from "./plugins"
+import { Events, Outlet } from "./plugins"
 
 import {
   NavTree,
@@ -80,7 +79,7 @@ export class Container extends Component {
         </ToggleRepl>
         <NotificationBar />
         <LoginForm />
-        <IntercomWidget />
+        <Outlet name="@@dashboard/after-application-content" />
       </div>
   }
 
@@ -131,26 +130,30 @@ export default class Dashboard extends Component {
   }
 
   render() {
-    return <Provider store={this.store}>
-        <Router onUpdate={this.firePageChanged} history={browserHistory}>
-          <Redirect from="/" to="/db" />
-          <Route path="/db" component={Dashboard.Container}>
-            <Route path="indexes/:indexName" component={IndexManager} />
-            <Route path="indexes" component={IndexForm} />
-            <Route path="classes/:className" component={ClassManager} />
-            <Route path="classes" component={ClassForm} />
-            <Route path="databases" component={DatabaseForm} />
-            <Route path="keys" component={KeysManager} />
-            <Route path="**/indexes/:indexName" component={IndexManager} />
-            <Route path="**/indexes" component={IndexForm} />
-            <Route path="**/classes/:className" component={ClassManager} />
-            <Route path="**/classes" component={ClassForm} />
-            <Route path="**/databases" component={DatabaseForm} />
-            <Route path="**/keys" component={KeysManager} />
-            <IndexRoute component={GetStarted} />
-          </Route>
-          <Route path="*" component={Dashboard.NotFound} />
-        </Router>
-      </Provider>
+    return <div>
+        <Provider store={this.store}>
+          <Router onUpdate={this.firePageChanged} history={browserHistory}>
+            <Redirect from="/" to="/db" />
+            <Route path="/db" component={Dashboard.Container}>
+              <Route path="indexes/:indexName" component={IndexManager} />
+              <Route path="indexes" component={IndexForm} />
+              <Route path="classes/:className" component={ClassManager} />
+              <Route path="classes" component={ClassForm} />
+              <Route path="databases" component={DatabaseForm} />
+              <Route path="keys" component={KeysManager} />
+              <Route path="**/indexes/:indexName" component={IndexManager} />
+              <Route path="**/indexes" component={IndexForm} />
+              <Route path="**/classes/:className" component={ClassManager} />
+              <Route path="**/classes" component={ClassForm} />
+              <Route path="**/databases" component={DatabaseForm} />
+              <Route path="**/keys" component={KeysManager} />
+              <IndexRoute component={GetStarted} />
+            </Route>
+            <Route path="*" component={Dashboard.NotFound} />
+          </Router>
+        </Provider>
+        {/* Entrypoint for rendering external plugins */}
+        { this.props.children }
+      </div>
   }
 }
