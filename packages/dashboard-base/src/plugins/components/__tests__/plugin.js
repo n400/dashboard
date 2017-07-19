@@ -5,7 +5,11 @@ import { shallowToJson } from "enzyme-to-json"
 import { Outlet, Plugin } from "../plugin"
 
 it("should render a plugin", () => {
-  const comp = shallow(<Outlet name="plugin-goes-here" />)
+  const comp = shallow(
+    <Outlet name="plugin-goes-here">
+      <h1>Default content</h1>
+    </Outlet>
+  )
   expect(shallowToJson(comp)).toMatchSnapshot()
 
   const plugin = shallow(
@@ -16,5 +20,10 @@ it("should render a plugin", () => {
 
   comp.update() // Force test wrapper to fetch plugin changes on the outlet component
   expect(shallowToJson(plugin)).toMatchSnapshot()
+  expect(shallowToJson(comp)).toMatchSnapshot()
+})
+
+it("should render an empty outlet if no default content", () => {
+  const comp = shallow(<Outlet name="empty-outlet" />)
   expect(shallowToJson(comp)).toMatchSnapshot()
 })

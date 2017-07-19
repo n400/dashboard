@@ -1,6 +1,6 @@
 import Immutable from "immutable"
 
-import { faunaClient, intercomSettings } from "../"
+import { faunaClient, currentUser } from "../"
 
 describe("faunaClient", () => {
   it("returns fauna client for the logged in user", () => {
@@ -19,31 +19,14 @@ describe("faunaClient", () => {
   })
 })
 
-describe("intercomSettings", () => {
+describe("currentUser", () => {
   it("returns logged in user", () => {
-    const state = Immutable.fromJS({
-      currentUser: {
-        client: "mockedClient",
-        settings: {
-          intercom: {
-            "app_id": "123"
-          }
-        }
-      }
-    })
-
-    expect(intercomSettings(state).toJS()).toEqual({
-      "app_id": "123"
-    })
+    const state = Immutable.fromJS({ currentUser: "logged-in-user" })
+    expect(currentUser(state)).toEqual("logged-in-user")
   })
 
-  it("returns null when no logged in user", () => {
+  it("returns null if no logged in user", () => {
     const state = Immutable.fromJS({ currentUser: null })
-    expect(intercomSettings(state)).toBeNull()
-  })
-
-  it("returns null when no intercom settings available for current user", () => {
-    const state = Immutable.fromJS({ currentUser: { settings: {} } })
-    expect(intercomSettings(state)).toBeNull()
+    expect(currentUser(state)).toBeNull()
   })
 })

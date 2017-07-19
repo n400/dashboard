@@ -1,10 +1,4 @@
-import {
-  login,
-  logout,
-  loginWithCloud,
-  restoreUserSession,
-  reduceUserSession,
-} from "../"
+import { login, logout, restoreUserSession, reduceUserSession, } from "../"
 
 jest.mock("../../persistence/faunadb-wrapper", () => ({
   discoverKeyType() {
@@ -20,26 +14,6 @@ jest.mock("../../persistence/session-storage", () => ({
 
 const SessionStorage = require("../../persistence/session-storage")
 
-jest.mock("js-cookie", () => ({
-  remove: jest.fn(),
-  get: jest.fn()
-}))
-
-const Cookies = require("js-cookie")
-
-jest.mock("superagent", () => {
-  const requestMock = {
-    get: jest.fn(() => requestMock),
-    end: jest.fn(() => requestMock),
-    timeout: jest.fn(() => requestMock),
-    withCredentials: jest.fn(() => requestMock)
-  }
-
-  return requestMock
-})
-
-const request = require("superagent")
-
 describe("Given a user store", () => {
   let store, currentUser
 
@@ -51,13 +25,12 @@ describe("Given a user store", () => {
     })
   })
 
-  it("should be able to login with an anonymous user", () => {
+  it("should be able to login with endpoint and secret", () => {
     return store.dispatch(login("localhost:8443/", "secret")).then(() => {
       expect(currentUser).toEqual({
         endpoint: "localhost:8443/",
         secret: "secret",
-        client: "mockedClient",
-        settings: {}
+        client: "mockedClient"
       })
 
       expect(SessionStorage.set).toHaveBeenCalledWith("loggedInUser", {
@@ -77,73 +50,8 @@ describe("Given a user store", () => {
       expect(currentUser).toEqual({
         endpoint: "somewhere",
         secret: "123",
-        client: "mockedClient",
-        settings: {}
+        client: "mockedClient"
       })
-    })
-  })
-
-  it("should be able to use cloud authentication", () => {
-    Cookies.get.mockReturnValue("abc123")
-
-    request.end.mockImplementation(callback => callback(null, {
-      ok: true,
-      body: {
-        endpoint: "localhost",
-        secret: "secret",
-        userId: "123",
-        email: "test@example.com",
-        flags: {
-          acceptedTos: true,
-          paymentSet: true
-        },
-        settings: {
-          intercom: {
-            appId: "ap123",
-            userHash: "hash123"
-          }
-        }
-      }
-    }))
-
-    return store.dispatch(loginWithCloud()).then(loggedIn => {
-      expect(currentUser).toEqual({
-        endpoint: "localhost",
-        secret: "secret",
-        client: "mockedClient",
-        settings: {
-          logoutUrl: "http://localhost:3000/logout",
-          paymentUrl: "http://localhost:3000/account/billing",
-          acceptedTos: true,
-          paymentSet: true,
-          intercom: {
-            app_id: "ap123",
-            user_hash: "hash123",
-            user_id: "123",
-            email: "test@example.com"
-          }
-        }
-      })
-
-      expect(loggedIn).toBeTruthy()
-    })
-  })
-
-  it("should NOT login with cloud if no auth cookie", () => {
-    Cookies.get.mockReturnValue(undefined)
-
-    return store.dispatch(loginWithCloud()).then(loggedIn => {
-      expect(currentUser).toBeNull()
-      expect(loggedIn).toBeFalsy()
-    })
-  })
-
-  it("should not login with could if auth request fail", () => {
-    Cookies.get.mockReturnValue("abc123")
-    request.end.mockImplementation(callback => callback(null, { ok: false }))
-
-    return store.dispatch(loginWithCloud()).catch(() => {
-      expect(currentUser).toBeNull()
     })
   })
 
@@ -159,35 +67,8 @@ describe("Given a user store", () => {
     })
 
     it("should be able to logout", () => {
-      const url = store.dispatch(logout())
-
+      store.dispatch(logout())
       expect(currentUser).toBeNull()
-      expect(url).toEqual("/")
-      expect(Cookies.remove).toHaveBeenCalledWith("dashboard")
-      expect(SessionStorage.clear).toHaveBeenCalled()
-    })
-  })
-
-  describe("when there is a cloud user logged in", () => {
-    beforeEach(() => {
-      currentUser = {
-        endpoint: "localhost",
-        secret: "123",
-        client: "mockedClient",
-        settings: {
-          logoutUrl: "https://fauna.com/logout"
-        }
-      }
-
-      store = store.withInitialState({ currentUser })
-    })
-
-    it("should be able to logout", () => {
-      const url = store.dispatch(logout())
-
-      expect(currentUser).toBeNull()
-      expect(url).toEqual("https://fauna.com/logout")
-      expect(Cookies.remove).toHaveBeenCalledWith("dashboard")
       expect(SessionStorage.clear).toHaveBeenCalled()
     })
   })

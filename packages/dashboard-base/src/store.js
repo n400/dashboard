@@ -10,7 +10,7 @@ import { reduceNotifications } from "./notifications"
 import { reduceActivityMonitor } from "./activity-monitor"
 import { reduceUserSession } from "./authentication"
 
-export const createReduxStore = () => {
+export default (() => {
   const middlewares = [thunk]
 
   if (process.env.NODE_ENV === "development") {
@@ -43,4 +43,4 @@ export const createReduxStore = () => {
       applyMiddleware(...middlewares)
     )
   )
-}
+})()

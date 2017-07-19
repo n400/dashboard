@@ -1,13 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render a plugin 1`] = `null`;
+exports[`should render a plugin 1`] = `
+<h1>
+  Default content
+</h1>
+`;
 
 exports[`should render a plugin 2`] = `null`;
 
 exports[`should render a plugin 3`] = `
-<div>
-  <h1>
-    I will appear at "plugin-goes-here"
-  </h1>
-</div>
+<h1>
+  I will appear at "plugin-goes-here"
+</h1>
 `;
+
+exports[`should render an empty outlet if no default content 1`] = `null`;

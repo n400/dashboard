@@ -1,35 +1,33 @@
 import { Component } from "react"
-import { connect } from "react-redux"
+import { Events } from "dashboard-base"
 
 import { loadIntercomWidget, unloadIntercomWidget } from "./sdk"
-import { intercomSettings } from "dashboard-base"
 
-class IntercomWidget extends Component {
+export default class IntercomWidget extends Component {
   componentDidMount() {
-    this.updateWidget(this.props.settings)
+    Events.listen("@@authentication/user-logged-in", (user) => this.updateWidget(user))
+    Events.listen("@@authentication/user-logged-out", () => this.updateWidget(null))
   }
 
-  componentWillReceiveProps(next) {
-    if (this.props.settings !== next.settings) {
-      this.updateWidget(next.settings)
-    }
+  updateWidget(user) {
+    const settings = this.intercomSettings(user)
+    settings ? loadIntercomWidget(settings) : unloadIntercomWidget()
   }
 
-  updateWidget(settings) {
-    if (settings) {
-      loadIntercomWidget(settings.toJS())
-    } else {
-      unloadIntercomWidget()
+  intercomSettings(user) {
+    if (user && user.settings && user.settings.intercom) {
+      return {
+        email: user.email,
+        user_id: user.userId,
+        app_id: user.settings.intercom.appId,
+        user_hash: user.settings.intercom.userHash
+      }
     }
+
+    return null
   }
 
   componentWillUnmount() { unloadIntercomWidget() }
   shouldComponentUpdate() { return false }
   render() { return false }
 }
-
-export default connect(
-  state => ({
-    settings: intercomSettings(state)
-  })
-)(IntercomWidget)
