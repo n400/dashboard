@@ -1,4 +1,5 @@
 import ReactGA from "react-ga"
+import ReactDOMServer from "react-dom/server"
 import { Events } from "dashboard-base"
 
 Events.listen("@@dashboard/page-changed", ({ pathname }) => {
@@ -7,6 +8,11 @@ Events.listen("@@dashboard/page-changed", ({ pathname }) => {
 })
 
 Events.listen("@@notifications/pushed", ({ type, message }) => {
+  if (typeof message !== "string") {
+    // jsx html object
+    message = ReactDOMServer.renderToStaticMarkup(message)
+  }
+
   ReactGA.event({
     category: "notify",
     action: type,
