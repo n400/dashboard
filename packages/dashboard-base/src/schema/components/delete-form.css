@@ -1,15 +1,7 @@
-.delete-form .ms-Button {
-    background-color: #a80000;
-}
+.delete-form .ms-Button { background-color: #a80000; }
+.delete-form .ms-Button:hover { background-color: #8a0000; }
+.delete-form .ms-Button:disabled { background-color: #f4f4f4; }
 
-.delete-form .ms-Button:disabled {
-    background-color: #f4f4f4;
-}
-
-.delete-form .ms-Button .ms-Button-label {
-    color: white;
-}
-
-.delete-form .ms-Button:disabled .ms-Button-label {
-    color: #a6a6a6;
-}
+.delete-form .ms-Button .ms-Button-label { color: white; }
+.delete-form .ms-Button:hover .ms-Button-label { color: white; }
+.delete-form .ms-Button:disabled .ms-Button-label { color: #a6a6a6; }
