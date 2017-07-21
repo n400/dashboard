@@ -19,6 +19,8 @@ class ToggleRepl extends Component {
   constructor(props) {
     super(props)
     this.state = this.initialState()
+    this.executeQuery = this.executeQuery.bind(this)
+    this.onBreadCrumbClick = this.onBreadCrumbClick.bind(this)
   }
 
   initialState() {
@@ -29,8 +31,8 @@ class ToggleRepl extends Component {
       fullscreen: false,
       expandedSize: 300,
       privilege: null,
-      result: null,
-      error: null
+      result: undefined,
+      error: undefined
     }
   }
 
@@ -78,7 +80,7 @@ class ToggleRepl extends Component {
         key: url,
         href: url,
         text: path.last(),
-        onClick: this.onBreadCrumbClick.bind(this)
+        onClick: this.onBreadCrumbClick
       }].concat(buildForPath(path.butLast()))
     }
 
@@ -101,8 +103,8 @@ class ToggleRepl extends Component {
         )(selectedCode || code)
       )
     ).then(
-      (result) => this.setState({ result, error: null }),
-      (error) => this.setState({ error, result: null })
+      (result) => this.setState({ result, error: undefined }),
+      (error) => this.setState({ error, result: undefined })
     )
 
     Events.fire("@@toggle-repl/query-executed")
@@ -146,7 +148,7 @@ class ToggleRepl extends Component {
                 shortcuts={[{
                   name: "execute",
                   bindKey: { win: "Ctrl-Enter", mac: "Command-Enter" },
-                  exec: this.executeQuery.bind(this)
+                  exec: this.executeQuery
                 }]} /> : <div></div>}
 
             <div className="query-result">
@@ -175,7 +177,7 @@ class ToggleRepl extends Component {
           <div className="buttons">
             <PrimaryButton
               disabled={!this.state.isOpen || this.props.isBusy}
-              onClick={this.executeQuery.bind(this)}>
+              onClick={this.executeQuery}>
                 Run
             </PrimaryButton>
 

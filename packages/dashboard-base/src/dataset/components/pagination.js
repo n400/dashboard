@@ -21,7 +21,7 @@ class Pagination extends Component {
     return {
       size: 16,
       cursor: {},
-      result: null
+      result: undefined
     }
   }
 
