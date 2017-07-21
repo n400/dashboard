@@ -76,8 +76,9 @@ export default class FieldsForm extends Component {
 
   resolveSuggestions(key) {
     return filter => {
-      const suggestions = {}
+      if (filter === "") return []
 
+      const suggestions = {}
       this.props.knownFields.forEach(each => {
         each.field.forEach((segment, segIndex) => {
           if (segment.startsWith(filter) && segment !== filter)
@@ -88,10 +89,9 @@ export default class FieldsForm extends Component {
         })
       })
 
-      return Object.values(suggestions).concat({
-        key: `${key}-new-tag`,
-        name: filter
-      })
+      return Object
+        .values(suggestions)
+        .concat({ key: `${key}-new-tag`, name: filter })
     }
   }
 
