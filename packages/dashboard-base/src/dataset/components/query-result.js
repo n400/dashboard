@@ -9,8 +9,8 @@ import { stringify } from "../stringify"
 export default class QueryResult extends Component {
 
   render() {
-    if (this.props.error) return this.showError()
-    if (this.props.result) return this.showResult()
+    if (this.props.error !== undefined) return this.showError()
+    if (this.props.result !== undefined) return this.showResult()
     return null
   }
 
