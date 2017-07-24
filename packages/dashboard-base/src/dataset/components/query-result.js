@@ -55,7 +55,8 @@ export default class QueryResult extends Component {
     const columnsByName = {}
     const data = []
 
-    const dataToParse = this.props.result.data || this.props.result
+    const result = this.props.result
+    const dataToParse = (result && result.data) || result
     let hasNonObjects = false
 
     if (Array.isArray(dataToParse)) {
