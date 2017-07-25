@@ -126,7 +126,7 @@ class ToggleRepl extends Component {
       className="toggle-repl"
       split="horizontal"
       primary="second"
-      minSize="200"
+      minSize={200}
       size={this.replSize()}
       allowResize={this.state.isOpen && !this.state.fullscreen}
       onChange={this.onChange("expandedSize")}>
