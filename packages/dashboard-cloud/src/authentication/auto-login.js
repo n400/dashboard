@@ -53,7 +53,7 @@ export default class AutoCloudLogin extends Component {
           Don't forget to <a href={`${WEBSITE}/account/billing`} target="_blank" rel="noopener noreferrer">setup your billing</a> information
           to keep using FaunaDB
         </span>
-      )
+      , 60 * 60 * 1000 /* 1 hour */)
     }
   }
 
