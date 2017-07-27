@@ -14,21 +14,19 @@ const Actions = {
   REMOVE: "@@notifications/REMOVE"
 }
 
-export const pushNotification = (type, message, timeoutTime) => (dispatch) => {
+export const pushNotification = (type, message, timeout = DEFAULT_NOTIFICATION_TIMEOUT) => (dispatch) => {
   const notification = Map.of("type", type, "message", message)
   dispatch({ type: Actions.PUSH, notification })
   Events.fire("@@notifications/pushed", { type, message })
-  if (typeof timeoutTime === "undefined") {
-    timeoutTime = DEFAULT_NOTIFICATION_TIMEOUT;
-  }
-  if (timeoutTime !== 0) {
+
+  if (timeout !== Infinity) {
     setTimeout(
       () => dispatch({
         type: Actions.REMOVE,
         notification
       }),
-      timeoutTime
-    )  
+      timeout
+    )
   }
 }
 
