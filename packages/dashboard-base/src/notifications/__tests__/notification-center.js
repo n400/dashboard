@@ -34,6 +34,12 @@ describe("Given a notification store", () => {
     expect(notifications.length).toEqual(0)
   })
 
+  it("support infinity notifications", () => {
+    store.dispatch(pushNotification(NotificationType.SUCCESS, "Uhull!!", Infinity))
+    jest.runAllTimers()
+    expect(notifications.length).toEqual(1)
+  })
+
   it("should notify on success", () => {
     return store.dispatch(notify("Uhull!", successfull)).then(finalResult => {
       expect(notifications).toEqual([{ type: "success", message: "Uhull!" }])

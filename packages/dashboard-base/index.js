@@ -13,7 +13,7 @@ export const Auth = {
 
 export const Notifications = {
   Type: NotificationType,
-  push: function(type, message) {
-    return store.dispatch(pushNotification(type, message))
+  push: function(type, message, timeout) {
+    return store.dispatch(pushNotification(type, message, timeout))
   }
 }
