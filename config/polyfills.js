@@ -18,7 +18,7 @@ Object.assign = require('object-assign');
 // For cross browser compatibility
 if (typeof Object.values === 'undefined') {
   Object.values = function(obj) {
-    Object.keys(obj).map(function(key) {
+    return Object.keys(obj).map(function(key) {
       return obj[key];
     });
   };
