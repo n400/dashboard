@@ -53,12 +53,12 @@
   },
   "scripts": {
     "postinstall": "./node_modules/.bin/lerna bootstrap",
-    "start": "PACKAGE=packages/dashboard-base node scripts/start.js",
-    "test": "PACKAGE=packages/dashboard-base node scripts/test.js --env=jsdom",
-    "start-cloud": "PACKAGE=packages/dashboard-cloud node scripts/start.js",
-    "build-cloud": "PACKAGE=packages/dashboard-cloud node scripts/build.js",
-    "start-enterprise": "PACKAGE=packages/dashboard-enterprise node scripts/start.js",
-    "build-enterprise": "PACKAGE=packages/dashboard-enterprise node scripts/build.js"
+    "start": "node scripts/start.js --package=packages/dashboard-base",
+    "test": "node scripts/test.js --package=packages/dashboard-base --env=jsdom",
+    "start-cloud": "node scripts/start.js --package=packages/dashboard-cloud",
+    "build-cloud": "node scripts/build.js --package=packages/dashboard-cloud",
+    "start-enterprise": "node scripts/start.js --package=packages/dashboard-enterprise",
+    "build-enterprise": "node scripts/build.js --package=packages/dashboard-enterprise"
   },
   "jest": {
     "collectCoverageFrom": [
