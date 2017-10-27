@@ -12,6 +12,7 @@ const isProduction = process.env.NODE_ENV === "production"
 if (isProduction) {
   Raven.config("https://a6a14ab8e3ab4cbb87edaa320ad57ecb@sentry.io/154810").install()
   require("./ga-events")
+  require("./segment-events")
 }
 
 class CloudDashboard extends React.Component {
