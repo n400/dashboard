@@ -25,7 +25,12 @@ export const login = (endpoint, secret, userInfo = {}) => dispatch => {
     })
 
     dispatch({ type: Actions.LOGIN, user })
-    Events.fire("@@authentication/user-logged-in", userInfo)
+    Events.fire("@@authentication/user-logged-in", {
+      email : userInfo.email,
+      userId : userInfo.userId,
+      settings : userInfo.settings,
+      flags : userInfo.flags
+    })
     return user
   })
 }
