@@ -33,9 +33,12 @@ function stopWaitingForIntercomBubble() {
 function fixIntercomBubblePosition() {
   try {
     const launcher = document.querySelector("#intercom-container .intercom-launcher-frame")
-    if (launcher) {
+    const discovery = document.querySelector("#intercom-container .intercom-launcher-discovery-frame")
+
+    if (launcher && discovery) {
       stopWaitingForIntercomBubble()
       launcher.setAttribute("style", "bottom: 50px !important")
+      discovery.setAttribute("style", "width: 60px; bottom: 50px !important")
     }
   } catch(err) {
     stopWaitingForIntercomBubble()
