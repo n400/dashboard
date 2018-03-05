@@ -18,6 +18,14 @@ npm install
 npm start
 ```
 
+Alternatively, Docker may be used to run the server.
+
+```sh
+git clone https://github.com/fauna/dashboard
+cd dashboard
+make run
+```
+
 Visit http://localhost:3000/ and your app will be available. Enter the Fauna key
 secret and start browsing your data.
 
@@ -25,7 +33,7 @@ secret and start browsing your data.
 
 On macOS you'll need to install watchman using `brew install watchman`.
 
-Then you can run the tests with `npm run test`
+Then you can run the tests with `npm run test` (for Docker, use `make test`).
 
 ## Build for production
 
