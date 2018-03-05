@@ -1,0 +1,15 @@
+node_modules/
+coverage/
+build/
+.DS_Store
+.env
+npm-debug.log
+*.swp
+Dockerfile
+Dockerfile.release
+Makefile
+.gitignore
+.travis.yml
+codecov.yml
+LICENSE
+README.md
