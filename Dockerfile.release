@@ -17,8 +17,8 @@ FROM nginx:stable
 
 RUN rm /etc/nginx/conf.d/default.conf
 COPY docker/nginx.conf.template /etc/nginx/conf.d/dashboard.conf.template
-COPY docker/dashboard.sh /
-RUN chmod +x /dashboard.sh
+COPY docker/dashboard.sh /usr/local/bin/serve-dashboard
+RUN chmod +x /usr/local/bin/serve-dashboard
 
 ARG DASHBOARD_EDITION
 ARG DASHBOARD_REVISION
@@ -33,4 +33,4 @@ ENV DASHBOARD_SERVER_NAME=faunadb-dashboard \
 LABEL DASHBOARD_EDITION=$DASHBOARD_EDITION \
     DASHBOARD_REVISION=$DASHBOARD_REVISION
 
-CMD ["/dashboard.sh"]
+CMD ["serve-dashboard"]
