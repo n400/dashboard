@@ -1,0 +1,36 @@
+# Build dashboard
+FROM node:8-slim AS dashboard-build
+
+WORKDIR /usr/src/app
+
+COPY . /usr/src/app/
+
+RUN npm install --unsafe-perm --quiet
+
+ARG DASHBOARD_EDITION
+
+RUN npm run build-$DASHBOARD_EDITION && \
+    rm packages/dashboard-$DASHBOARD_EDITION/build/static/js/*.js.map
+
+# Final docker image
+FROM nginx:stable
+
+RUN rm /etc/nginx/conf.d/default.conf
+COPY docker/nginx.conf.template /etc/nginx/conf.d/dashboard.conf.template
+COPY docker/dashboard.sh /usr/local/bin/serve-dashboard
+RUN chmod +x /usr/local/bin/serve-dashboard
+
+ARG DASHBOARD_EDITION
+ARG DASHBOARD_REVISION
+
+COPY --from=dashboard-build \
+    /usr/src/app/packages/dashboard-$DASHBOARD_EDITION/build/ \
+    /var/www
+
+ENV DASHBOARD_SERVER_NAME=faunadb-dashboard \
+    DASHBOARD_PROTOCOL=http
+
+LABEL DASHBOARD_EDITION=$DASHBOARD_EDITION \
+    DASHBOARD_REVISION=$DASHBOARD_REVISION
+
+CMD ["serve-dashboard"]

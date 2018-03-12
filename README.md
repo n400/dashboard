@@ -1,6 +1,6 @@
 # Developer Dashboard for FaunaDB
 
-This dashboard should eventually provide access to the entire Fauna API as accesible to cloud users and developers at on-premise sites, but at first it will be narrowly focussed on a few screens and use cases. It will have a companion UI that is accesible to our cloud ops team, and to on-premise customer ops teams. Both will be shipped as part of the Fauna JAR. The Dev dashboard is where you land when you first join cloud.
+This dashboard should eventually provide access to the entire Fauna API as accessible to cloud users and developers at on-premise sites, but at first it will be narrowly focused on a few screens and use cases. It will have a companion UI that is accessible to our cloud ops team, and to on-premise customer ops teams. Both will be shipped as part of the Fauna JAR. The Dev dashboard is where you land when you first join cloud.
 
 [Sign up for FaunaDB in the cloud](https://fauna.com/serverless-cloud-sign-up) to try this dashboard directly.
 
@@ -18,6 +18,14 @@ npm install
 npm start
 ```
 
+Alternatively, Docker may be used to run the server.
+
+```sh
+git clone https://github.com/fauna/dashboard
+cd dashboard
+make run
+```
+
 Visit http://localhost:3000/ and your app will be available. Enter the Fauna key
 secret and start browsing your data.
 
@@ -25,7 +33,7 @@ secret and start browsing your data.
 
 On macOS you'll need to install watchman using `brew install watchman`.
 
-Then you can run the tests with `npm run test`
+Then you can run the tests with `npm run test` (for Docker, use `make test`).
 
 ## Build for production
 
