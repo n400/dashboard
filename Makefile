@@ -26,5 +26,6 @@ release-cloud: test-nowatch
 	docker push $(ECR_REPO):$(TAG)-cloud
 
 release-enterprise: test-nowatch
-	docker build --pull -f Dockerfile.release --build-arg EDITION=enterprise --build-arg REVISION=$(GIT_REVISION) -t $(ECR_REPO):$(TAG) .
+	docker build --pull -f Dockerfile.release --build-arg EDITION=enterprise --build-arg REVISION=$(GIT_REVISION) -t $(ECR_REPO):$(TAG)-enterprise -t $(ECR_REPO):$(TAG) .
+	docker push $(ECR_REPO):$(TAG)-enterprise
 	docker push $(ECR_REPO):$(TAG)
