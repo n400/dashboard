@@ -22,9 +22,9 @@ test-nowatch: build
 	docker run -it --rm -e CI=dummy -v "$(PWD)/config":/usr/src/app/config -v "$(PWD)/packages":/usr/src/app/packages -v "$(PWD)/public":/usr/src/app/public -v "$(PWD)/scripts":/usr/src/app/scripts faunadb-dashboard npm run test
 
 release-cloud: test-nowatch
-	docker build --pull -f Dockerfile.release --build-arg DASHBOARD_EDITION=cloud --build-arg DASHBOARD_REVISION=$(GIT_REVISION) -t $(ECR_REPO):$(TAG)-cloud .
+	docker build --pull -f Dockerfile.release --build-arg EDITION=cloud --build-arg REVISION=$(GIT_REVISION) -t $(ECR_REPO):$(TAG)-cloud .
 	docker push $(ECR_REPO):$(TAG)-cloud
 
 release-enterprise: test-nowatch
-	docker build --pull -f Dockerfile.release --build-arg DASHBOARD_EDITION=enterprise --build-arg DASHBOARD_REVISION=$(GIT_REVISION) -t $(ECR_REPO):$(TAG) .
+	docker build --pull -f Dockerfile.release --build-arg EDITION=enterprise --build-arg REVISION=$(GIT_REVISION) -t $(ECR_REPO):$(TAG) .
 	docker push $(ECR_REPO):$(TAG)
