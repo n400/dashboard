@@ -8,7 +8,7 @@ GIT_REVISION := $(shell git rev-parse HEAD)
 all: run
 
 build:
-	docker build -t faunadb-dashboard .
+	docker build --pull -t faunadb-dashboard .
 
 run: build
 # Mount folders individually to use docker image's node_modules.
@@ -22,9 +22,9 @@ test-nowatch: build
 	docker run -it --rm -e CI=dummy -v "$(PWD)/config":/usr/src/app/config -v "$(PWD)/packages":/usr/src/app/packages -v "$(PWD)/public":/usr/src/app/public -v "$(PWD)/scripts":/usr/src/app/scripts faunadb-dashboard npm run test
 
 release-cloud: test-nowatch
-	docker build -f Dockerfile.release --build-arg DASHBOARD_EDITION=cloud --build-arg DASHBOARD_REVISION=$(GIT_REVISION) -t $(ECR_REPO):$(TAG)-cloud .
+	docker build --pull -f Dockerfile.release --build-arg DASHBOARD_EDITION=cloud --build-arg DASHBOARD_REVISION=$(GIT_REVISION) -t $(ECR_REPO):$(TAG)-cloud .
 	docker push $(ECR_REPO):$(TAG)-cloud
 
 release-enterprise: test-nowatch
-	docker build -f Dockerfile.release --build-arg DASHBOARD_EDITION=enterprise --build-arg DASHBOARD_REVISION=$(GIT_REVISION) -t $(ECR_REPO):$(TAG) .
+	docker build --pull -f Dockerfile.release --build-arg DASHBOARD_EDITION=enterprise --build-arg DASHBOARD_REVISION=$(GIT_REVISION) -t $(ECR_REPO):$(TAG) .
 	docker push $(ECR_REPO):$(TAG)
