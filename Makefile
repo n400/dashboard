@@ -9,18 +9,18 @@ GIT_SHORT := $(shell git rev-parse --short=12 HEAD)
 all: run
 
 build:
-	docker build --pull -t faunadb-dashboard .
+	docker build --pull --build-arg UID=`id -u` --build-arg GID=`id -g` -t faunadb-dashboard .
+	docker run --rm -v "$(PWD):/usr/src/app" faunadb-dashboard npm install
 
 run: build
-# Mount folders individually to use docker image's node_modules.
-	docker run -it --rm -v "$(PWD)/config":/usr/src/app/config -v "$(PWD)/packages":/usr/src/app/packages -v "$(PWD)/public":/usr/src/app/public -v "$(PWD)/scripts":/usr/src/app/scripts --net=host faunadb-dashboard
+	docker run -it --rm -v "$(PWD):/usr/src/app" --net=host faunadb-dashboard
 
 test: build
-	docker run -it --rm -v "$(PWD)/config":/usr/src/app/config -v "$(PWD)/packages":/usr/src/app/packages -v "$(PWD)/public":/usr/src/app/public -v "$(PWD)/scripts":/usr/src/app/scripts faunadb-dashboard npm run test
+	docker run -it --rm -v "$(PWD):/usr/src/app" faunadb-dashboard npm run test
 
 test-nowatch: build
 # Set CI env to dummy value so watch is not enabled.
-	docker run --rm -e CI=dummy -v "$(PWD)/config":/usr/src/app/config -v "$(PWD)/packages":/usr/src/app/packages -v "$(PWD)/public":/usr/src/app/public -v "$(PWD)/scripts":/usr/src/app/scripts faunadb-dashboard npm run test
+	docker run --rm -e CI=dummy -v "$(PWD):/usr/src/app" faunadb-dashboard npm run test
 
 release-cloud: test-nowatch
 	docker build --pull -f Dockerfile.release --build-arg EDITION=cloud --build-arg REVISION=$(GIT_REVISION) -t $(ECR_REPO):$(GIT_SHORT)-cloud -t $(ECR_REPO):$(TAG)-cloud .

@@ -1,8 +1,12 @@
 FROM node:8-slim
 
-WORKDIR /usr/src/app
+ARG UID
+ARG GID
 
-COPY package.json package-lock.json lerna.json /usr/src/app/
-RUN npm install --unsafe-perm --quiet
+RUN groupmod -g $GID node && \
+    usermod -u $UID -g $GID node
+
+WORKDIR /usr/src/app
+USER node
 
 CMD ["npm", "start"]
