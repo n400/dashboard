@@ -1,0 +1,19 @@
+---
+version: "3"
+services:
+  dashboard:
+    build: .
+    command: /bin/bash -c "npm install --unsafe-perm --quiet && npm run start"
+    network_mode: host
+    volumes:
+      - .:/usr/src/app
+      - root_modules:/usr/src/app/node_modules
+      - base_modules:/usr/src/app/packages/dashboard-base/node_modules
+      - cloud_modules:/usr/src/app/packages/dashboard-cloud/node_modules
+      - enterprise_modules:/usr/src/app/packages/dashboard-enterprise/node_modules
+
+volumes:
+  root_modules:
+  base_modules:
+  cloud_modules:
+  enterprise_modules:
