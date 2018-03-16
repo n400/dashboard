@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 envsubst '${DASHBOARD_SERVER_NAME}' < /etc/nginx/conf.d/dashboard.conf.template > /etc/nginx/conf.d/dashboard.conf
 if [[ "$DASHBOARD_PROTOCOL" == "https" ]]; then
