@@ -3,6 +3,7 @@ TAG ?= latest
 ECR_REPO := 957571668058.dkr.ecr.us-west-2.amazonaws.com/dashboard
 GIT_REVISION := $(shell git rev-parse HEAD)
 GIT_SHORT := $(shell git rev-parse --short=12 HEAD)
+PARENT_DIR := $(shell basename $(shell pwd))
 
 .PHONY: all build run test test-nowatch release-cloud release-enterprise
 
@@ -10,6 +11,7 @@ all: run
 
 clean:
 	docker-compose rm -fv
+	docker volume rm -f $(PARENT_DIR)_root_modules $(PARENT_DIR)_base_modules $(PARENT_DIR)_cloud_modules $(PARENT_DIR)_enterprise_modules
 
 build:
 	docker-compose build --pull dashboard
