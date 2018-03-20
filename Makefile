@@ -15,16 +15,17 @@ clean:
 
 build:
 	docker-compose build --pull dashboard
+	docker-compose run --rm dashboard npm install --unsafe-perm --quiet
 
 run: build
 	docker-compose run --rm dashboard
 
 test: build
-	docker-compose run --rm dashboard /bin/bash -c "npm install --unsafe-perm --quiet && npm run test"
+	docker-compose run --rm dashboard npm run test
 
 test-nowatch: build
 # Set CI env to dummy value so watch is not enabled.
-	docker-compose run --rm -e CI=dummy dashboard /bin/bash -c "npm install --unsafe-perm --quiet && npm run test"
+	docker-compose run --rm -e CI=dummy dashboard npm run test
 
 release-cloud: test-nowatch
 	docker build --pull -f Dockerfile.release --build-arg EDITION=cloud --build-arg REVISION=$(GIT_REVISION) -t $(ECR_REPO):$(GIT_SHORT)-cloud -t $(ECR_REPO):$(TAG)-cloud .
