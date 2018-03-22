@@ -28,6 +28,7 @@ COPY --from=dashboard-build \
     /var/www
 
 ENV DASHBOARD_SERVER_NAME=faunadb-dashboard \
+    DASHBOARD_PORT=80 \
     DASHBOARD_PROTOCOL=http
 
 LABEL dashboard.edition=$EDITION \
