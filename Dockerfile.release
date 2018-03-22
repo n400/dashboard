@@ -31,6 +31,7 @@ ENV DASHBOARD_SERVER_NAME=faunadb-dashboard \
     DASHBOARD_PROTOCOL=http
 
 LABEL dashboard.edition=$EDITION \
-    dashboard.revision=$REVISION
+    dashboard.revision=$REVISION \
+    maintainer="Fauna, Inc. <support@fauna.com>"
 
 CMD ["serve-dashboard"]
