@@ -1,5 +1,5 @@
 server {
-    listen      0.0.0.0:80 default_server;
+    listen      0.0.0.0:${DASHBOARD_PORT} default_server;
     server_name ${DASHBOARD_SERVER_NAME};
     root        /var/www;
 
