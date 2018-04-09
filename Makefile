@@ -42,7 +42,4 @@ release-enterprise: -check-working-clean test-nowatch
 	@echo Tag $(GIT_SHORT)-enterprise pushed for git revision $(GIT_REVISION).
 
 -check-working-clean:
-	@$(shell git diff --stat --exit-code > /dev/null)
-	ifneq ($(.SHELLSTATUS), 0)
-		$(error Working directory is not clean, refusing to release)
-	endif
+	@git diff --stat --exit-code > /dev/null || { echo "Working directory is not clean, refusing to release."; exit 2; }
