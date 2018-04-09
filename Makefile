@@ -5,7 +5,7 @@ GIT_REVISION := $(shell git rev-parse HEAD)
 GIT_SHORT := $(shell git rev-parse --short=12 HEAD)
 PARENT_DIR := $(shell basename $(shell pwd))
 
-.PHONY: all build run test test-nowatch release-cloud release-enterprise
+.PHONY: all build run test test-nowatch release-cloud release-enterprise -check-working-clean
 
 all: run
 
@@ -27,14 +27,22 @@ test-nowatch: build
 # Set CI env to dummy value so watch is not enabled.
 	docker-compose run --rm -e CI=dummy dashboard npm run test
 
-release-cloud: test-nowatch
+release-cloud: -check-working-clean test-nowatch
 	docker build --pull -f Dockerfile.release --build-arg EDITION=cloud --build-arg REVISION=$(GIT_REVISION) -t $(ECR_REPO):$(GIT_SHORT)-cloud -t $(ECR_REPO):$(TAG)-cloud .
 	docker push $(ECR_REPO):$(GIT_SHORT)-cloud
 	docker push $(ECR_REPO):$(TAG)-cloud
+	@echo Tag $(GIT_SHORT)-cloud pushed for git revision $(GIT_REVISION).
 
-release-enterprise: test-nowatch
+release-enterprise: -check-working-clean test-nowatch
 	docker build --pull -f Dockerfile.release --build-arg EDITION=enterprise --build-arg REVISION=$(GIT_REVISION) -t $(ECR_REPO):$(GIT_SHORT)-enterprise -t $(ECR_REPO):$(GIT_SHORT) -t $(ECR_REPO):$(TAG)-enterprise -t $(ECR_REPO):$(TAG) .
 	docker push $(ECR_REPO):$(GIT_SHORT)-enterprise
 	docker push $(ECR_REPO):$(GIT_SHORT)
 	docker push $(ECR_REPO):$(TAG)-enterprise
 	docker push $(ECR_REPO):$(TAG)
+	@echo Tag $(GIT_SHORT)-enterprise pushed for git revision $(GIT_REVISION).
+
+-check-working-clean:
+	@$(shell git diff --stat --exit-code > /dev/null)
+	ifneq ($(.SHELLSTATUS), 0)
+		$(error Working directory is not clean, refusing to release)
+	endif
