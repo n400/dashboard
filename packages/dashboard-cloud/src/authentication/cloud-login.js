@@ -1,6 +1,6 @@
 import Cookies from "js-cookie"
 
-const CLOUD_COOKIE = "dashboard"
+const CLOUD_COOKIE = "fauna_dashboard"
 const AUTH_API_TIMEOUT = 60000
 
 const parseResponse = (res) => {
