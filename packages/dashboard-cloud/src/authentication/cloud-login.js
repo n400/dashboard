@@ -7,7 +7,7 @@ const parseResponse = (res) => {
   if (!res.ok) {
     throw new Error(
       "Unexpected error while logging into FaunaDB Cloud. " +
-      "Try again or check our status page: https://fauna.com/status")
+      "Try again or check our status page: https://account.fauna.com/status")
   }
 
   return res.json()
