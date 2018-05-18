@@ -37,30 +37,12 @@ export default class AutoCloudLogin extends Component {
       .login(user.endpoint, user.secret, user)
       .then(() => {
         this.setState({ message: null })
-        this.askForPaymentInfoIfNeeded(user)
       })
   }
 
   notifyError(err) {
     Notifications.push(Notifications.Type.ERROR, `${err.message}. You'll be redirected to ${WEBSITE} in 5 seconds...`)
     setTimeout(() => window.location = WEBSITE, 5000)
-  }
-
-  askForPaymentInfoIfNeeded(user) {
-    if (this.shouldAskForPaymentInfo(user)) {
-      Notifications.push(Notifications.Type.WARNING,
-        <span>
-          Don't forget to <a href={`${WEBSITE}/account/billing`} target="_blank" rel="noopener noreferrer">setup your billing</a> information
-          to keep using FaunaDB
-        </span>
-      , Infinity)
-    }
-  }
-
-  shouldAskForPaymentInfo(user) {
-    return user && user.flags &&
-      user.flags.acceptedTos === true &&
-      user.flags.paymentSet === false
   }
 
   render() {
