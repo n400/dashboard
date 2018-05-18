@@ -2,6 +2,7 @@ import React from "react"
 import { shallow } from "enzyme"
 import { shallowToJson } from "enzyme-to-json"
 import { query as q } from "faunadb"
+import { values as v } from "faunadb"
 import { Map, List } from "immutable"
 
 import { ClassBrowser } from "../class-browser"
@@ -23,7 +24,7 @@ describe("ClassBrowser Component", () => {
     client = {
       query: jest.fn(() => Promise.resolve({
         data: [{
-          ref: q.Ref("classes/people/1"),
+          ref: new v.Ref("1", new v.Ref("people", v.Native.CLASSES)),
           data: { name: "Bob" }
         }]
       }))
@@ -31,11 +32,11 @@ describe("ClassBrowser Component", () => {
 
     classWithClassIndex = Map.of(
       "name", "people",
-      "ref", q.Ref("classes/people"),
+      "ref", new v.Ref("people", v.Native.CLASSES),
       "indexes", List.of(
         Map.of(
           "name", "all_people",
-          "ref", q.Ref("indexes/all_people"),
+          "ref", new v.Ref("all_people", v.Native.INDEXES),
           "terms", List(),
           "values", List()
         )
@@ -44,11 +45,11 @@ describe("ClassBrowser Component", () => {
 
     classWithNonClassIndex = Map.of(
       "name", "people",
-      "ref", q.Ref("classes/people"),
+      "ref", new v.Ref("people", v.Native.CLASSES),
       "indexes", List.of(
         Map.of(
           "name", "all_people",
-          "ref", q.Ref("indexes/all_people"),
+          "ref", new v.Ref("all_people", v.Native.INDEXES),
           "terms", List(),
           "values", List.of(
             Map.of("field", List.of("data", "name"))
@@ -59,7 +60,7 @@ describe("ClassBrowser Component", () => {
 
     classWithoutIndex = Map.of(
       "name", "users",
-      "ref", q.Ref("classes/users"),
+      "ref", new v.Ref("users", v.Native.CLASSES),
       "indexes", List.of()
     )
 
@@ -104,7 +105,7 @@ describe("ClassBrowser Component", () => {
 
     expect(createIndex).toHaveBeenLastCalledWith(client, ["a-db"], {
       name: "all_users",
-      source: q.Ref("classes/users")
+      source: new v.Ref("users", v.Native.CLASSES)
     })
   })
 
@@ -114,7 +115,7 @@ describe("ClassBrowser Component", () => {
 
     expect(createIndex).toHaveBeenLastCalledWith(client, ["a-db"], {
       name: "all_people_1",
-      source: q.Ref("classes/people")
+      source: new v.Ref("people", v.Native.CLASSES)
     })
   })
 })

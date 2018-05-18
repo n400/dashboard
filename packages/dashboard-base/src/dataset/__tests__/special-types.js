@@ -4,13 +4,13 @@ import { renderSpecialType } from "../special-types"
 
 describe("When rendering special fauna types", () => {
   it("should render Ref", () => {
-    expect(renderSpecialType(new v.Ref("classes/people")))
-      .toEqual('q.Ref("classes/people")')
+    expect(renderSpecialType(new v.Ref("people", v.Native.CLASSES)))
+      .toEqual('q.Class("people")')
   })
 
   it("should render @ref", () => {
-    expect(renderSpecialType({ "@ref": "classes/people" }))
-      .toEqual('q.Ref("classes/people")')
+    expect(renderSpecialType({ "@ref": { id: "people", class: { "@ref": { id: "classes" } } } }))
+      .toEqual('q.Class("people")')
   })
 
   it("should render FaunaDate", () => {

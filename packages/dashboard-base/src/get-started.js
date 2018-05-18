@@ -31,7 +31,7 @@ export default () => <div>
       query console with other queries. Here's one to add a field to your instance (you'll want to use the Ref
       listed on the instance you just browsed in the main UI.):
     <pre>
-      q.Update(q.Ref("classes/myclass/159441342217322496"), {'{data: {foo : "bar"}}'})
+      q.Update(q.Ref("159441342217322496", q.Class("myclass")), {'{data: {foo : "bar"}}'})
     </pre>
   </li>
   </ol>
