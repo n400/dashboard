@@ -67,9 +67,7 @@ export class Container extends Component {
               <div className="ms-Grid-col ms-u-sm12 ms-u-md6 ms-u-lg9 ms-u-xl10">
                 <ul>
                   <li><ActivityMonitor /></li>
-                  <li><a href="http://fauna.com/tutorials" target="_blank" rel="noopener noreferrer">Tutorials</a></li>
                   <li><a href="http://fauna.com/documentation" target="_blank" rel="noopener noreferrer">Documentation</a></li>
-                  <li><a href="https://fauna.com/resources#drivers" target="_blank" rel="noopener noreferrer">Drivers</a></li>
                   <li><UserAccount /></li>
                 </ul>
               </div>
