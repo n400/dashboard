@@ -9,42 +9,47 @@ exports[`Container Component displays the base layout 1`] = `
       className="ms-Grid"
     >
       <div
-        className="ms-Grid-row header"
+        className="header-nav"
       >
         <div
-          className="ms-Grid-col ms-u-sm5 ms-u-md6 ms-u-lg3 ms-u-xl2"
+          className="ms-Grid-row header"
         >
-          <Link
-            onlyActiveOnIndex={false}
-            style={Object {}}
-            to="/"
+          <div
+            className="ms-Grid-col ms-u-sm5 ms-u-md6 ms-u-lg3 ms-u-xl2"
           >
-            <img
-              alt="logo"
-              src="logo.svg"
-            />
-          </Link>
-        </div>
-        <div
-          className="ms-Grid-col ms-u-sm12 ms-u-md6 ms-u-lg9 ms-u-xl10"
-        >
-          <ul>
-            <li>
-              <Connect(ActivityMonitor) />
-            </li>
-            <li>
-              <a
-                href="http://fauna.com/documentation"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Documentation
-              </a>
-            </li>
-            <li>
-              <Connect(UserAccount) />
-            </li>
-          </ul>
+            <Link
+              onlyActiveOnIndex={false}
+              style={Object {}}
+              to="/"
+            >
+              <img
+                alt="logo"
+                className="logo"
+                src="logo.svg"
+              />
+            </Link>
+          </div>
+          <div
+            className="ms-Grid-col ms-u-sm12 ms-u-md6 ms-u-lg9 ms-u-xl10"
+          >
+            <ul>
+              <li>
+                <Connect(ActivityMonitor) />
+              </li>
+              <li>
+                <a
+                  href="http://fauna.com/documentation"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Documentation
+                </a>
+              </li>
+              <li>
+                <Connect(UserAccount) />
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -70,42 +75,47 @@ exports[`Container Component renders a smaller sidebar when using a server key 1
       className="ms-Grid"
     >
       <div
-        className="ms-Grid-row header"
+        className="header-nav"
       >
         <div
-          className="ms-Grid-col ms-u-sm5 ms-u-md6 ms-u-lg3 ms-u-xl2"
+          className="ms-Grid-row header"
         >
-          <Link
-            onlyActiveOnIndex={false}
-            style={Object {}}
-            to="/"
+          <div
+            className="ms-Grid-col ms-u-sm5 ms-u-md6 ms-u-lg3 ms-u-xl2"
           >
-            <img
-              alt="logo"
-              src="logo.svg"
-            />
-          </Link>
-        </div>
-        <div
-          className="ms-Grid-col ms-u-sm12 ms-u-md6 ms-u-lg9 ms-u-xl10"
-        >
-          <ul>
-            <li>
-              <Connect(ActivityMonitor) />
-            </li>
-            <li>
-              <a
-                href="http://fauna.com/documentation"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Documentation
-              </a>
-            </li>
-            <li>
-              <Connect(UserAccount) />
-            </li>
-          </ul>
+            <Link
+              onlyActiveOnIndex={false}
+              style={Object {}}
+              to="/"
+            >
+              <img
+                alt="logo"
+                className="logo"
+                src="logo.svg"
+              />
+            </Link>
+          </div>
+          <div
+            className="ms-Grid-col ms-u-sm12 ms-u-md6 ms-u-lg9 ms-u-xl10"
+          >
+            <ul>
+              <li>
+                <Connect(ActivityMonitor) />
+              </li>
+              <li>
+                <a
+                  href="http://fauna.com/documentation"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Documentation
+                </a>
+              </li>
+              <li>
+                <Connect(UserAccount) />
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
