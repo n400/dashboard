@@ -1,10 +1,45 @@
 import { values as v } from "faunadb"
 
+const ctors = {
+  classes: "Class",
+  indexes: "Index",
+  databases: "Database",
+  keys: "Key"
+}
+
+const parseRef = (obj) => {
+  if (obj === undefined) {
+    return obj
+  } else if (obj instanceof v.Ref) {
+    return obj
+  } else {
+    const ref = ('@ref' in obj) ? obj['@ref'] : obj
+    return new v.Ref(ref.id, parseRef(ref.class), parseRef(ref.database))
+  }
+}
+
+const renderRef = (obj) => {
+  var args = [`"${obj.id}"`]
+
+  if (obj.class !== undefined) {
+    const ctor = ctors[obj.class.id]
+    if (ctor !== undefined) {
+      if (obj.database !== undefined) args.push(renderRef(obj.database))
+      args = args.join(', ')
+      return `q.${ctor}(${args})`
+    }
+  }
+
+  if (obj.class !== undefined) args = [renderRef(obj.class)].concat(args)
+  args = args.join(', ')
+  return `q.Ref(${args})`
+}
+
 export const renderSpecialType = (type) => {
   if (!type) return null
 
   if (type instanceof v.Value) {
-    if (type instanceof v.Ref) return `q.Ref("${type.value}")`
+    if (type instanceof v.Ref) return renderRef(type)
     if (type instanceof v.FaunaTime) return `q.Time("${type.value}")`
     if (type instanceof v.FaunaDate) return `q.Date("${type.value}")`
     return null
@@ -14,7 +49,7 @@ export const renderSpecialType = (type) => {
     const keys = Object.keys(type)
 
     switch (keys[0]) {
-      case "@ref":  return renderSpecialType(new v.Ref(type["@ref"]))
+      case "@ref":  return renderRef(parseRef(type))
       case "@ts":   return renderSpecialType(new v.FaunaTime(type["@ts"]))
       case "@date": return renderSpecialType(new v.FaunaDate(type["@date"]))
       default:      return null

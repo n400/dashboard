@@ -25,7 +25,7 @@ export const KeysList = ({ dispatch, client, path, url }) => {
   )
 
   const onRefSelected = ref => {
-    if (ref.class.value === "keys") {
+    if (ref.class && ref.class.id === "keys") {
       return dispatch(
         monitorActivity(
           watchForError("Error when fetching key information", () =>

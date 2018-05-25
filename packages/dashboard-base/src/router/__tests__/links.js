@@ -1,4 +1,5 @@
 import { query as q } from "faunadb"
+import { values as v } from "faunadb"
 
 import { buildResourceUrl, linkForRef } from "../"
 
@@ -29,31 +30,31 @@ describe("buildResourceUrl", () => {
 
 describe("linkForRef", () => {
   it("build link for class", () => {
-    expect(linkForRef(null, q.Ref("classes/a-class")).toJS()).toEqual({
+    expect(linkForRef(null, new v.Ref("a-class", v.Native.CLASSES)).toJS()).toEqual({
       name: "classes/a-class",
       url: "/db/classes/a-class"
     })
 
-    expect(linkForRef("/db/db1/databases", q.Ref("classes/a-class")).toJS()).toEqual({
+    expect(linkForRef("/db/db1/databases", new v.Ref("a-class", v.Native.CLASSES)).toJS()).toEqual({
       name: "classes/a-class",
       url: "/db/db1/classes/a-class"
     })
   })
 
   it("build link for index", () => {
-    expect(linkForRef(null, q.Ref("indexes/a-index")).toJS()).toEqual({
+    expect(linkForRef(null, new v.Ref("a-index", v.Native.INDEXES)).toJS()).toEqual({
       name: "indexes/a-index",
       url: "/db/indexes/a-index"
     })
 
-    expect(linkForRef("/db/db1/databases", q.Ref("indexes/a-index")).toJS()).toEqual({
+    expect(linkForRef("/db/db1/databases", new v.Ref("a-index", v.Native.INDEXES)).toJS()).toEqual({
       name: "indexes/a-index",
       url: "/db/db1/indexes/a-index"
     })
   })
 
   it("returns empty url for non supported refs", () => {
-    expect(linkForRef(null, q.Ref("keys/a-key")).toJS()).toEqual({
+    expect(linkForRef(null, new v.Ref("a-key", v.Native.KEYS)).toJS()).toEqual({
       name: "keys/a-key",
       url: null
     })

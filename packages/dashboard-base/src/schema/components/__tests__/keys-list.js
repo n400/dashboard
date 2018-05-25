@@ -2,6 +2,7 @@ import React from "react"
 import { shallow } from "enzyme"
 import { shallowToJson } from "enzyme-to-json"
 import { query as q } from "faunadb"
+import { values as v } from "faunadb"
 
 import { KeysList } from "../keys-list"
 
@@ -40,12 +41,12 @@ describe("KeysList Component", () => {
   })
 
   it("fetch a key when clicked", () => {
-    comp.find("InstancesList").simulate("selectRef", q.Ref("keys/123"))
+    comp.find("InstancesList").simulate("selectRef", new v.Ref("123", v.Native.KEYS))
     expect(client.query).toHaveBeenCalled()
   })
 
   it("redirect to database when database ref is cliekced", () => {
-    comp.find("InstancesList").simulate("selectRef", q.Ref("databases/my-blog"))
+    comp.find("InstancesList").simulate("selectRef", new v.Ref("my-blog", v.Native.DATABASES))
     expect(browserHistory.push).toHaveBeenCalledWith("/db/a-db/my-blog/databases")
   })
 })

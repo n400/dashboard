@@ -22,9 +22,16 @@ const supportedRefTypes = [
   "indexes"
 ]
 
+const refToPath = (ref) => {
+  var path = []
+  if (ref && ref.class) path.push(refToPath(ref.class))
+  if (ref) path.push(ref.id)
+  return path.join("/")
+}
+
 export const linkForRef = (parentUrl, ref) => {
-  const path = (ref && ref.value) || ""
-  const [ type ] = path.split("/")
+  const path = refToPath(ref)
+  const type = (ref && ref.class && ref.class.id) || ""
 
   if (!supportedRefTypes.includes(type))
     return Map.of("name", path, "url", null)
