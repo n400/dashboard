@@ -25,7 +25,7 @@ class ToggleRepl extends Component {
 
   initialState() {
     return {
-      code: "q.Paginate(q.Ref(\"indexes\"))",
+      code: "q.Paginate(q.Indexes())",
       selectedCode: "",
       isOpen: false,
       fullscreen: false,
