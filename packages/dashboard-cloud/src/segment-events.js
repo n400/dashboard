@@ -6,6 +6,10 @@ analytics.load("8uqtaGHRo9ssPnx2c7FssSQ7eou7jCGc");
 analytics.page();
 }}();
 
+Events.listen("@@authentication/user-logged-in", (data, name) => {
+  window.analytics.identify(data.userId, {email:data.email})
+})
+
 Events.listen("*", (data, name) => {
   window.analytics.track(name, data)
 })
