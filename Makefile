@@ -1,6 +1,6 @@
 TAG ?= latest
 
-ECR_REPO := 957571668058.dkr.ecr.us-west-2.amazonaws.com/dashboard
+REPO := gcr.io/faunadb-cloud/dashboard
 GIT_REVISION := $(shell git rev-parse HEAD)
 GIT_SHORT := $(shell git rev-parse --short=12 HEAD)
 PARENT_DIR := $(shell basename $(shell pwd))
@@ -28,17 +28,17 @@ test-nowatch: build
 	docker-compose run --rm -e CI=dummy dashboard npm run test
 
 release-cloud: -check-working-clean test-nowatch
-	docker build --pull -f Dockerfile.release --build-arg EDITION=cloud --build-arg REVISION=$(GIT_REVISION) -t $(ECR_REPO):$(GIT_SHORT)-cloud -t $(ECR_REPO):$(TAG)-cloud .
-	docker push $(ECR_REPO):$(GIT_SHORT)-cloud
-	docker push $(ECR_REPO):$(TAG)-cloud
+	docker build --pull -f Dockerfile.release --build-arg EDITION=cloud --build-arg REVISION=$(GIT_REVISION) -t $(REPO):$(GIT_SHORT)-cloud -t $(REPO):$(TAG)-cloud .
+	docker push $(REPO):$(GIT_SHORT)-cloud
+	docker push $(REPO):$(TAG)-cloud
 	@echo Tag $(GIT_SHORT)-cloud pushed for git revision $(GIT_REVISION).
 
 release-enterprise: -check-working-clean test-nowatch
-	docker build --pull -f Dockerfile.release --build-arg EDITION=enterprise --build-arg REVISION=$(GIT_REVISION) -t $(ECR_REPO):$(GIT_SHORT)-enterprise -t $(ECR_REPO):$(GIT_SHORT) -t $(ECR_REPO):$(TAG)-enterprise -t $(ECR_REPO):$(TAG) .
-	docker push $(ECR_REPO):$(GIT_SHORT)-enterprise
-	docker push $(ECR_REPO):$(GIT_SHORT)
-	docker push $(ECR_REPO):$(TAG)-enterprise
-	docker push $(ECR_REPO):$(TAG)
+	docker build --pull -f Dockerfile.release --build-arg EDITION=enterprise --build-arg REVISION=$(GIT_REVISION) -t $(REPO):$(GIT_SHORT)-enterprise -t $(REPO):$(GIT_SHORT) -t $(REPO):$(TAG)-enterprise -t $(REPO):$(TAG) .
+	docker push $(REPO):$(GIT_SHORT)-enterprise
+	docker push $(REPO):$(GIT_SHORT)
+	docker push $(REPO):$(TAG)-enterprise
+	docker push $(REPO):$(TAG)
 	@echo Tag $(GIT_SHORT)-enterprise pushed for git revision $(GIT_REVISION).
 
 -check-working-clean:
