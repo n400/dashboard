@@ -7,9 +7,9 @@ import { Events, Auth, Notifications } from "dashboard-base"
 import { identifyCloudUser, logoutCloudUser } from "./cloud-login"
 
 const WEBSITE = (() => {
-  if (process.env.NODE_ENV !== "production") return "http://localhost:3000"
+  if (process.env.NODE_ENV !== "production") return "http://localhost:3001"
   const url = parseURL(window.location.href)
-  const host = url.hostname.replace(/^\w+\./, "") // removes its subdomain
+  const host = url.hostname.replace(/^\w+\./, "account.") // replaces subdomain with "account"
   return `${url.protocol}//${host}`
 })()
 
