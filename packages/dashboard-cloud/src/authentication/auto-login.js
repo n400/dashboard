@@ -9,7 +9,7 @@ import { identifyCloudUser, logoutCloudUser } from "./cloud-login"
 const WEBSITE = (() => {
   if (process.env.NODE_ENV !== "production") return "http://localhost:3001"
   const url = parseURL(window.location.href)
-  const host = url.hostname.replace(/^\w+\./, "account.") // replaces subdomain with "account"
+  const host = url.hostname.replace(/^\w+\./, "app.") // replaces subdomain with "app"
   return `${url.protocol}//${host}`
 })()
 
