@@ -141,7 +141,7 @@ class IndexForm extends Component {
         <p className="ms-TextField-description">
           Terms are matched exactly, values can be ranged.
           A termless index is useful for paginating all members of a class. <a
-            href="https://fauna.com/documentation/objects#indexes"
+            href="https://app.fauna.com/documentation/reference/indexconfig"
             target="_blank" rel="noopener noreferrer">
               Learn more about indexes in the documentation.
           </a>
