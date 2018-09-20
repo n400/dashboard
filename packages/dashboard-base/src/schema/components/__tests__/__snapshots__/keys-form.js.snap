@@ -60,11 +60,11 @@ exports[`KeysForm Component should create a new key on submit 1`] = `
     >
       Check 
       <a
-        href="https://fauna.com/documentation/#authentication"
+        href="https://app.fauna.com/documentation/intro/security"
         rel="noopener noreferrer"
         target="_blank"
       >
-        https://fauna.com/documentation/#authentication
+        https://app.fauna.com/documentation/intro/security
       </a>
        for more information about the key's role.
     </p>
@@ -151,11 +151,11 @@ exports[`KeysForm Component should create a new key on submit 2`] = `
     >
       Check 
       <a
-        href="https://fauna.com/documentation/#authentication"
+        href="https://app.fauna.com/documentation/intro/security"
         rel="noopener noreferrer"
         target="_blank"
       >
-        https://fauna.com/documentation/#authentication
+        https://app.fauna.com/documentation/intro/security
       </a>
        for more information about the key's role.
     </p>
@@ -256,11 +256,11 @@ exports[`KeysForm Component should render an empty form 1`] = `
     >
       Check 
       <a
-        href="https://fauna.com/documentation/#authentication"
+        href="https://app.fauna.com/documentation/intro/security"
         rel="noopener noreferrer"
         target="_blank"
       >
-        https://fauna.com/documentation/#authentication
+        https://app.fauna.com/documentation/intro/security
       </a>
        for more information about the key's role.
     </p>
