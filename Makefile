@@ -5,7 +5,7 @@ GIT_REVISION := $(shell git rev-parse HEAD)
 GIT_SHORT := $(shell git rev-parse --short=12 HEAD)
 PARENT_DIR := $(shell basename $(shell pwd))
 
-.PHONY: all build run test test-nowatch release-cloud release-enterprise -check-working-clean
+.PHONY: all build run test test-nowatch release-cloud release-enterprise release-staging -check-working-clean
 
 all: run
 
@@ -40,6 +40,8 @@ release-enterprise: -check-working-clean test-nowatch
 	docker push $(REPO):$(TAG)-enterprise
 	docker push $(REPO):$(TAG)
 	@echo Tag $(GIT_SHORT)-enterprise pushed for git revision $(GIT_REVISION).
+
+release-staging: release-cloud
 
 -check-working-clean:
 	@git diff --stat --exit-code > /dev/null || { echo "Working directory is not clean, refusing to release."; exit 2; }
