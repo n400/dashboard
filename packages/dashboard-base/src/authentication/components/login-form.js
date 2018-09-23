@@ -124,7 +124,7 @@ class LoginForm extends Component {
           <Spinner type={SpinnerType.large} label={message} /> :
           <form onSubmit={this.onSubmit}>
             <p className="ms-Dialog-subText">
-              Visit <a href="https://fauna.com/dashboard">https://fauna.com/dashboard</a> or talk to your administrator to provision keys.
+              Visit <a href="https://app.fauna.com/dashboard">https://app.fauna.com/dashboard</a> or talk to your administrator to provision keys.
             </p>
 
             <TextField
