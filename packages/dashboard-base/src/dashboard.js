@@ -63,12 +63,14 @@ export class Container extends Component {
             <div className="header-nav">
               <div className="ms-Grid-row header">
                 <div className="ms-Grid-col ms-u-sm5 ms-u-md6 ms-u-lg3 ms-u-xl2">
-                  <Link to="/"><img src={logo} alt="logo" className="logo" /></Link>
+                  <Link to="/" className="logo"><img src={logo} alt="logo" /></Link>
                 </div>
                 <div className="ms-Grid-col ms-u-sm12 ms-u-md6 ms-u-lg9 ms-u-xl10">
                   <ul>
                     <li><ActivityMonitor /></li>
                     <li><a href="https://app.fauna.com/documentation" target="_blank" rel="noopener noreferrer">Documentation</a></li>
+                    <li><a href="https://publicslack.com/slacks/fauna-community/invites/new" target="_blank" rel="noopener noreferrer">Community Slack</a></li>
+                    <li><a href="https://app.fauna.com/account" rel="noopener noreferrer">Account</a></li>
                     <li><UserAccount /></li>
                   </ul>
                 </div>
