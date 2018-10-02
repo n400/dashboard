@@ -14,18 +14,16 @@ dl dd {
 }
 
 .header-nav {
-    background-color: black;
+    background-color:#323fcb;
     margin: 0 -8px 0 -8px;
 }
 
 .header {
-    padding: 1.85em 0.6em 0.5em 3em;
-    background-color: black;
-    color: white;
+    padding: 0;
+    color:white;
     margin-left: auto;
     margin-right: auto;
-    max-width: 1060px;
-    height: 99px;
+    height: 50px;
 }
 
 .header ul {
@@ -36,26 +34,47 @@ dl dd {
 .header ul li {
     display: inline-block;
     list-style: none;
-    padding: 0 0 0 1em;
+    padding: 0 16px;
     vertical-align: middle;
 }
 
 .header .ms-Button,
 .header a {
-    color: white !important;
+    color: white;
+    opacity:.85;
+    border-bottom: 3px solid transparent;
+    font-size:12px;
+    text-transform: uppercase;
+    padding: 10px 0;
+    position: relative;
+    top: -4px;
+}
+.header .ms-Button{
+    top:0;
+    height:36px;
 }
 
 .header a:hover,
 .header .ms-Button:hover {
-    color: #0078d7 !important;
+    opacity:1;
+    border-bottom: 3px solid #01e399;
+    transition: 0.5s ease;
+    color:white;
 }
 
 .header a {
     font-weight: bold;
     text-decoration: none;
 }
-
-.logo {
-    height: 50px;
-    width: 160px;
+a.logo{
+    opacity:1;
+}
+a.logo img{
+    height: 30px;
+    width: auto;
+    padding-top:12px;
+    border-bottom:0;
+}
+a.logo:hover{
+    border-bottom:0;
 }
