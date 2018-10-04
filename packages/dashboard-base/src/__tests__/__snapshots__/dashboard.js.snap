@@ -18,13 +18,13 @@ exports[`Container Component displays the base layout 1`] = `
             className="ms-Grid-col ms-u-sm5 ms-u-md6 ms-u-lg3 ms-u-xl2"
           >
             <Link
+              className="logo"
               onlyActiveOnIndex={false}
               style={Object {}}
               to="/"
             >
               <img
                 alt="logo"
-                className="logo"
                 src="logo.svg"
               />
             </Link>
@@ -43,6 +43,23 @@ exports[`Container Component displays the base layout 1`] = `
                   target="_blank"
                 >
                   Documentation
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://publicslack.com/slacks/fauna-community/invites/new"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Community Slack
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://app.fauna.com/account"
+                  rel="noopener noreferrer"
+                >
+                  Account
                 </a>
               </li>
               <li>
@@ -84,13 +101,13 @@ exports[`Container Component renders a smaller sidebar when using a server key 1
             className="ms-Grid-col ms-u-sm5 ms-u-md6 ms-u-lg3 ms-u-xl2"
           >
             <Link
+              className="logo"
               onlyActiveOnIndex={false}
               style={Object {}}
               to="/"
             >
               <img
                 alt="logo"
-                className="logo"
                 src="logo.svg"
               />
             </Link>
@@ -109,6 +126,23 @@ exports[`Container Component renders a smaller sidebar when using a server key 1
                   target="_blank"
                 >
                   Documentation
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://publicslack.com/slacks/fauna-community/invites/new"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Community Slack
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://app.fauna.com/account"
+                  rel="noopener noreferrer"
+                >
+                  Account
                 </a>
               </li>
               <li>
