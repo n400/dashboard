@@ -5,7 +5,6 @@ import Raven from "raven-js"
 import { Dashboard, Plugin } from "dashboard-base"
 
 import { AutoCloudLogin } from "./authentication"
-import { IntercomWidget } from "./intercom"
 
 const isProduction = process.env.NODE_ENV === "production"
 
@@ -26,9 +25,6 @@ class CloudDashboard extends React.Component {
     return <Dashboard>
         <Plugin outlet="@@dashboard/authentication">
           <AutoCloudLogin />
-        </Plugin>
-        <Plugin outlet="@@dashboard/after-application-content">
-          <IntercomWidget />
         </Plugin>
       </Dashboard>
   }
